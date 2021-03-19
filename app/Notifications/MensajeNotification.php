@@ -6,7 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 use App\Mensaje;
+use App\User;
+use App\Receptor;
 use Carbon\Carbon;
 
 class MensajeNotification extends Notification
@@ -56,12 +59,18 @@ class MensajeNotification extends Notification
      */
     public function toArray($notifiable)
     {
+		$usuario = auth::user();
+		$recept = User::leftJoin("receptors","users.id","=","receptors.receptor")
+			->select("users.id")
+			->where('receptors.mensaje_id','=',$this->mensaje->id)->get();
         return [
             'mensaje'=> $this->mensaje->id,
-			'emisor'=> $this->mensaje->user_id,
-			'receptor'=> $this->mensaje->receptor,
+			'emisor_id'=> $this->mensaje->user_id,
+			'emisor'=> $usuario->name,
+			'receptor'=> $recept,
 			'tema'=>$this->mensaje->tema,
 			'contenido'=>$this->mensaje->mensaje,
+			'importancia' =>$this->mensaje->importancia,
 			'time' => Carbon::now()->diffForHumans(),
 
         ];

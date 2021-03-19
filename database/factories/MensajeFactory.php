@@ -10,7 +10,6 @@ $factory->define(Mensaje::class, function (Faker $faker) {
     return [
         'tema' => $faker->sentence,
         'mensaje' => $faker->text,
-        'receptor' => $faker->name,
         'user_id' =>$faker->numberBetween($min = 1, $max = 7),
     ];
 });
