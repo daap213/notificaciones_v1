@@ -46,6 +46,8 @@ Route::middleware(['auth'])->group(function(){
 	
 	Route::get('/post/recibidos','PostController@recibido')->name('recibidoPost');
 	
+	Route::get('/archivo/show/{id}','ArchivoController@show')->name('show_archivo');
+	
 	Route::get('markAsRead',function(){
 		auth()->user()->unreadNotifications->markAsRead();
 		return redirect()->back();

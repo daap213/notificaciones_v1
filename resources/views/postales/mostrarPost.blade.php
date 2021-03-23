@@ -8,11 +8,12 @@
 			<div class="card-body">
 			   <form>
 				@csrf
-
 				  <label for="tema"><h4>Tema: {{$post->tema}}</h4></label><br>
 				  <div class="form-group">
 					<label for="mensaje"><h4>Contenido del Post:</h4></label><br>
-					<textarea class="form-control" rows="5" id="mensaje" name="mensaje" placeholder="{{$post->contenido}}" readonly></textarea><br>
+					<div  class="py-2 px-lg-2 border bg-light">
+										{!!$post->contenido!!}
+					</div>	
 				  </div>
 				  <a onclick="history.back()" class="btn btn-info">Volver</a>
 				</form>

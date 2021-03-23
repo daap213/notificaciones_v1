@@ -12,6 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+	<script src="https://cdn.tiny.cloud/1/t201vdo700re5kofroz4z7gn4xljo747k94jzpbk9a6n4cqy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -269,8 +270,8 @@
 					</div>
 				@endif
 			</div>
-
             @yield('content')
+			@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
         </main>
     </div>
 

@@ -11,23 +11,37 @@
 			<div class="card-body">
 			   <form>
 				@csrf
-				  
 				  <div class="row">
 					<div class="col-1">
 							<label for="receptor"><h3>Para: </h3></label>
 					</div>	
 					<div class="col-10">
-							<textarea class="form-control"  rows="3" id="receptor" name="receptor" readonly>
-							@foreach ($recep as $rec){{$rec}}
-							@endforeach
-							</textarea><br>
+					 <input type="text" class="form-control" value="{{$mensaje->receptor}}" readonly><br>
 					</div>		
 				  </div>
-				  <label for="tema"><h4>Tema: {{$mensaje->tema}}</h4></label><br>
-				  <div class="form-group">
-					<label for="mensaje"><h4>Mensaje:</h4></label><br>
-					<textarea class="form-control" rows="5" id="mensaje" name="mensaje" placeholder="{{$mensaje->mensaje}}" readonly></textarea><br>
+				  <div class="row">
+					<div class="col-1">
+							<label for="tema"><h3>Tema: </h3></label><br>
+					</div>	
+					<div class="col-10">
+					 <input type="text" class="form-control" value="{{$mensaje->tema}}" readonly><br>
+					</div>		
 				  </div>
+				  <label for="tema"><h3>Mensaje: </h3></label><br>
+					{!!$mensaje->mensaje!!}<br>
+				  <div class="row">
+						<div class="col-3">
+							<label for="adjunto"><h3>Archivos adjuntos: </h3></label><br>
+						</div>	
+						<div class="col-8 col-sm-8">
+						@forelse($archivos as $archivo)
+						<a target="_blank" href="{{route ('show_archivo',$archivo->id)}}" class="btn btn-outline-primary">{{$archivo->name}}<i class="fas fa-external-link-alt"></i></a>
+						  
+						@empty
+							<div class="col-6 col-sm-4"><h4>Ninguno</h4></div>
+						@endforelse
+						</div>
+				  </div><br>
 				  <a href="{{route ('responder_mensaje',$mensaje->id)}}" class="btn btn-info">Responder</a>
 				  <a href="{{route ('recibido_mensaje')}}" class="btn btn-info">Volver</a>
 				</form>

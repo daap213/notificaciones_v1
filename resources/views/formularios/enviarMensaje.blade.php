@@ -40,5 +40,9 @@
 		</div>
 	</div>
 </div>
-
+ <script>
+    tinymce.init({
+      selector: '#mensaje'
+    });
+  </script>
 @endsection

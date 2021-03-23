@@ -25,18 +25,31 @@
 									  <tr>
 										<th>Receptor</th>
 										<th>Tema</th>
-										<th>Descripcion</th>
+										<th>Importancia</th>
+										<th>Adjuntos</th>
 										<th colspan="2">Accion</th>
 									  </tr>
 									</thead>
 									<tbody>
 									@foreach($mensaje as $m)
-									
 									  <tr>
-										<td width="20%"><input type="text" class="form-control" value="{{$m->receptor}}" readonly></td>	
-										<td><input type="text" class="form-control" value="{{$m->tema}}" readonly></td>
-										<td width="40%"><input type="text" class="form-control" value="{{$m->mensaje}}" readonly></td>
-										<td width="6%"><a href="{{route('show_mensaje',$m->id),''}}">Ver</a></td>
+									    <td width="20%">
+										<input type="text" class="form-control" value="{{$m->receptor}}" readonly></input>
+										</td>
+										<td width="25%">
+										<input type="text" class="form-control" value="{{$m->tema}}" readonly></input>
+										</td>
+										<td width="15%">
+										<input type="text" class="form-control" value="{{$m->importancia}}" readonly></input>										
+										</td>
+										<td width="20%">
+										@if($m->archivos == NULL)
+										<input type="text" class="form-control" value="Mensaje sin adjunto" readonly></input>	
+										@else
+										<input type="text" class="form-control" value="{{$m->archivos}}" readonly></input>	
+										@endif										
+										</td>	
+										<td width="12%"><a href="{{route('show_mensaje',$m->id),''}}" class="btn btn-info">Ver mensaje</a></td>
 										<td width="8%">
 											<form action="{{route('eliminar_mensaje',$m->id)}}" method="post">
 												<input name="_method" type="hidden" value="DELETE">
@@ -54,9 +67,21 @@
 								<div class="container">
 									<div class="row justify-content-center">
 										 <div class="card col-11">
+										 	@if(!empty($errors->all()))
+												<div class="notification is-danger">
+													<div class="card-header"><h2>Por favor, valida los siguientes errores:</h2></div>
+													<ul>
+														@foreach ($errors->all() as $mensaje)
+															<li>
+															 <p style="color:red">{{$mensaje}}</p>
+															 </li>
+														@endforeach
+													</ul>
+												</div>
+											@endif
 											<div class="card-header"><h2>Enviar mensaje</h2></div>
 											<div class="card-body">
-											   <form method="post" action={{route('store_mensaje')}}>
+											   <form method="post" onsubmit="return validacion()" action={{route('store_mensaje')}} enctype="multipart/form-data">
 												@csrf
 												  <div class="input-group-sm">
 													  <label for="receptor"><h5>¿A quién deseas enviar un mensaje?</h5></label>
@@ -73,9 +98,15 @@
 												  </div>
 												  <div class="form-group">
 													<label for="mensaje"><h5>Descripcion:</h5></label><br>
-													<textarea class="form-control" rows="5" id="mensaje" name="mensaje" value="mensaje" placeholder="Mensaje"required></textarea><br>
-													<!--<input class="form-control" type="text" id="mensaje" name="mensaje" value="mensaje">-->
+													<textarea class="form-control" rows="5" id="mensaje" name="mensaje" value="mensaje" placeholder="Mensaje"></textarea><br>
 												  </div>
+												  <div class="form-group">
+													  <label for="file"><h5>Adjuntar archivos [PDF,DOC,DOCX,XLSX.PPT,PPXT,JPG,JPEG,PNG,RAR,ZIP]:</h5></label>
+													  <input class="form-control" accept=".png,.jpg,.jpeg,.gif,.doc,.docx,.ppt,.ppxt,.pdf,.xlsx,.rar,.zip" type="file" id="file" name="file[]" multiple>
+													 @error('file')
+													 <p style="color:red">{{$message}}</p>
+													 @enderror
+												  </div><br>
 												  <div class="form-group">
 													<div class="form-check">
 													  <input class="form-check-input" type="checkbox" id="importancia" name="importancia">
@@ -84,9 +115,39 @@
 													  </label>
 													</div>
 												  </div>
-												  <button type="submit" value="Enviar" class="btn btn-info"><h5>Enviar</h5></button>
-												  <a onclick="history.back()" class="btn btn-info"><h5>Cancelar</h5></a>
+												  <button type="submit" name="submitbtn" value="Enviar" class="btn btn-info"><h5>Enviar</h5></button>
 												</form>
+												  <script>
+													tinymce.init({
+													  selector: '#mensaje',
+													   plugins: [
+																  'tinymcespellchecker','advlist autolink lists charmap print preview hr anchor pagebreak',
+																  'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking',
+																  'table emoticons template paste help'
+																],
+														toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+														  'bullist numlist outdent indent | print preview | ' +
+														  'forecolor backcolor emoticons',
+														menu: {
+														  favs: {title: 'Mi Favoritas', items: 'searchreplace | emoticons'}
+														},
+														menubar: 'favs file edit view insert format tools table help',
+														content_css: 'css/content.css',
+													  spellchecker_select_languages: 'en,es',
+													  language: 'es'
+													});
+
+													function validacion() {
+														    valor = tinymce.get('mensaje').getContent({format: 'text'});
+															
+															if( valor == null || valor.length == 0 || /^\s+$/.test(valor) ) {
+															  alert('[ERROR] No ha escrito ningun mensaje');
+															  return false;
+															}
+															
+															
+													}
+												  </script>
 											</div>
 										</div>
 									</div>

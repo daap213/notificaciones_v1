@@ -22,6 +22,7 @@ class CreateMensajesTable extends Migration
 			$table->text('receptor');
 			$table->string('tema')->nullable();
 			$table->text('mensaje');
+			$table->text('archivos')->nullable();
 			$table->enum('importancia', ['normal', 'Importante'])->default('normal');
 			$table->unsignedBigInteger('RespondidoA')->nullable();
             $table->timestamps();

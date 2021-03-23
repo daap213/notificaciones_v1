@@ -33,7 +33,7 @@ class PostController extends Controller
 	}
 	 public function recibido(){
 		$emisor = User::all();
-		$post = DB::table('posts')->orderBy('id', 'desc')->paginate(10);;
+		$post = DB::table('posts')->orderBy('id', 'desc')->paginate(5);;
 		return view('postales.postRecibido',compact('post'),compact('emisor'));
 	}
 }

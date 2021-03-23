@@ -6,28 +6,30 @@
 	<div class="container">
 	  <h3><a href="{{route ('enviarPost')}}">Redactar un Post</a></h3>
 	</div><br>
-  <table class="table">
-    <thead class = "thead-light">
-      <tr>
-        <th>Emisor</th>
-        <th>Tema</th>
-        <th>Contenido</th>
-		<th colspan="1">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
+
 	@foreach($post as $m)
 		@foreach($emisor->where('id','=',$m->user_id) as $use)
-      <tr>
-        <td width="20%"><input type="text" class="form-control" value="{{$use->name}}" readonly></td>
-        <td><input type="text" class="form-control" value="{{$m->tema}}" readonly></td>
-        <td width="50%"><input type="text" class="form-control" value="{{$m->contenido}}" readonly></td>
-		<td width="6%"><a href="{{route('showPost',$m->id)}}">Ver</a></td>
-      </tr>
+		<div class="container">
+			<div class="row justify-content-center">
+				 <div class="card col-11">
+					
+					<div class="card-header"><h3>Post de: {{$use->name}}</h3></div> 
+					<div class="card-body">
+
+						  <label for="tema"><h4>Tema: {{$m->tema}}</h4></label><br>
+						  <div class="form-group">
+							<label for="mensaje"><h4>Contenido del Post:</h4></label><br>
+							<div  class="py-2 px-lg-2 border bg-light">
+										{!!$m->contenido!!}
+							</div>		
+						  </div>
+						  <a href="{{route('showPost',$m->id)}}" class="btn btn-info">Ver</a>
+					</div>
+				</div>
+			</div>
+		</div><br>
 	  @endforeach
 	@endforeach
-    </tbody>
-  </table>
   {{ $post->links() }}
 </div>
 
