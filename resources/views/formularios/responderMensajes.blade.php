@@ -42,13 +42,13 @@
 				  </div>
 				 @if(!empty($errors->all()))
 					<div class="notification is-danger">
-						<div class="card-header"><h2>Por favor, valida los siguientes errores:</h2></div>
+						<div class="card-header"><h3>Por favor, valida los siguientes errores:</h3></div>
 							<ul>
-							@foreach ($errors->all() as $mensaje)
-							<li>
-							<p style="color:red">{{$mensaje}}</p>
-							</li>
-							@endforeach
+								@foreach ($errors->all() as $mensaje)
+									<li>
+										<p style="color:red">{{$mensaje}}</p>
+									</li>
+								@endforeach
 							</ul>
 					</div>
 				@endif
