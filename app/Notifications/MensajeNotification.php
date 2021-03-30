@@ -23,7 +23,7 @@ class MensajeNotification extends Notification
      */
     public function __construct(Mensaje $mensaje)
     {
-       $this->mensaje = $mensaje;
+        $this->mensaje = $mensaje;
     }
 
     /**
@@ -46,9 +46,9 @@ class MensajeNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -59,19 +59,19 @@ class MensajeNotification extends Notification
      */
     public function toArray($notifiable)
     {
-		$usuario = auth::user();
-		$recept = User::leftJoin("receptors","users.id","=","receptors.receptor")
-			->select("users.id")
-			->where('receptors.mensaje_id','=',$this->mensaje->id)->get();
+        $usuario = auth::user();
+        $recept = User::leftJoin("receptors", "users.id", "=", "receptors.receptor")
+            ->select("users.id")
+            ->where('receptors.mensaje_id', '=', $this->mensaje->id)->get();
         return [
-            'mensaje'=> $this->mensaje->id,
-			'emisor_id'=> $this->mensaje->user_id,
-			'emisor'=> $usuario->name,
-			'receptor'=> $recept,
-			'tema'=>$this->mensaje->tema,
-			'contenido'=>$this->mensaje->mensaje,
-			'importancia' =>$this->mensaje->importancia,
-			'time' => Carbon::now()->diffForHumans(),
+            'mensaje' => $this->mensaje->id,
+            'emisor_id' => $this->mensaje->user_id,
+            'emisor' => $usuario->name,
+            'receptor' => $recept,
+            'tema' => $this->mensaje->tema,
+            'contenido' => $this->mensaje->mensaje,
+            'importancia' => $this->mensaje->importancia,
+            'time' => Carbon::now()->diffForHumans(),
 
         ];
     }

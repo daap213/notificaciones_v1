@@ -15,11 +15,12 @@ class CreateEmisorsTable extends Migration
     {
         Schema::create('emisors', function (Blueprint $table) {
             $table->id();
-			$table->unsignedBigInteger('mensaje_id');
-			$table->foreign('mensaje_id')
-			->references('id')
-			->on('mensajes');
-			$table->unsignedBigInteger('emisor');
+            $table->unsignedBigInteger('mensaje_id');
+            $table->foreign('mensaje_id')
+                ->references('id')
+                ->on('mensajes')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('emisor');
             $table->timestamps();
         });
     }

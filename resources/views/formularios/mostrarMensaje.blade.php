@@ -56,7 +56,9 @@
 							@endforelse
 						</div>
 					</div><br>
+					@can('create message')
 					<a href="{{route ('responder_mensaje',$mensaje->id)}}" class="btn btn-info">Responder</a>
+					@endcan
 					<a href="{{route ('recibido_mensaje')}}" class="btn btn-info">Volver</a>
 				</form>
 			</div>

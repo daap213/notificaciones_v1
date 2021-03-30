@@ -15,11 +15,12 @@ class CreateReceptorsTable extends Migration
     {
         Schema::create('receptors', function (Blueprint $table) {
             $table->id();
-			$table->unsignedBigInteger('mensaje_id');
-			$table->foreign('mensaje_id')
-			->references('id')
-			->on('mensajes');
-			$table->unsignedBigInteger('receptor');
+            $table->unsignedBigInteger('mensaje_id');
+            $table->foreign('mensaje_id')
+                ->references('id')
+                ->on('mensajes')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('receptor');
             $table->timestamps();
         });
     }

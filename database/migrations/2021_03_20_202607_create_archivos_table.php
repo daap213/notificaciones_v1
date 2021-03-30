@@ -15,11 +15,12 @@ class CreateArchivosTable extends Migration
     {
         Schema::create('archivos', function (Blueprint $table) {
             $table->id();
-			$table->string('name');
-			$table->unsignedBigInteger('mensaje_id');
-			$table->foreign('mensaje_id')
-			->references('id')
-			->on('mensajes');
+            $table->string('name');
+            $table->unsignedBigInteger('mensaje_id');
+            $table->foreign('mensaje_id')
+                ->references('id')
+                ->on('mensajes')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -28,6 +28,27 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        $rol = $user->roles->implode('name', ', ');
+        switch ($rol) {
+
+            case 'admin':
+                $inicio = "Bienvenido administrador";
+
+                return view('home', compact('inicio'));
+                break;
+
+            case 'lector':
+                $inicio = "Bienvenido lector";
+
+                return view('home', compact('inicio'));
+                break;
+
+            case 'escritor':
+                $inicio = "Bienvenido escritor";
+
+                return view('home', compact('inicio'));
+                break;
+        }
     }
 }
